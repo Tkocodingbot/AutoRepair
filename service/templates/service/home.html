@@ -1,0 +1,319 @@
+{% extends "HomeApp/base.html" %}
+{% load static %}
+
+{% block main-content %}
+    <div class="service-container">
+        <h2>Welcome to Mumbo Repair Service Center</h2>
+        
+        <!-- Container for the image gallery -->
+        <div class="container">
+
+            <!-- Full-width images with number text -->
+            <div class="mySlides" style="border: solid red 5px; display: flex; justify-content: center;">
+                <div class="numbertext">1 / 6</div>
+                <img src="{% static "HomeApp/images/img10.jpg" %}" style="width: 100%; height: 70vh;">
+            </div>
+
+            <div class="mySlides" style="border: solid red 5px; display: flex; justify-content: center;">
+                <div class="numbertext">2 / 6</div>
+                <img src="{% static "HomeApp/images/img11.jpg" %}" style="width: 100%; height: 70vh;">
+            </div>
+
+            <div class="mySlides" style="border: solid red 5px; display: flex; justify-content: center;">
+                <div class="numbertext">3 / 6</div>
+                <img src="{% static "HomeApp/images/img12.jpg" %}" style="width: 100%; height: 70vh;">
+            </div>
+
+            <div class="mySlides" style="border: solid red 5px; display: flex; justify-content: center;">
+                <div class="numbertext">4 / 6</div>
+                <img src="{% static "HomeApp/images/img13.jpg" %}" style="width: 100%; height: 70vh;">
+            </div>
+
+            <div class="mySlides" style="border: solid red 5px; display: flex; justify-content: center;">
+                <div class="numbertext">5 / 6</div>
+                <img src="{% static "HomeApp/images/img14.jpg" %}" style="width: 100%; height: 70vh;">
+            </div>
+
+            <div class="mySlides" style="border: solid red 5px; display: flex; justify-content: center;">
+                <div class="numbertext">6 / 6</div>
+                <img src="{% static "HomeApp/images/img15.jpg" %}" style="width: 100%; height: 70vh;">
+            </div> 
+
+            <!-- Next and previous buttons -->
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+            <!-- Image text -->
+            <div class="caption-container">
+                <p id="caption"></p>
+            </div>
+
+            <!-- Thumbnail images -->
+            <div class="row">
+                <div class="column">
+                <img class="demo cursor" src="{% static "HomeApp/images/img10.jpg" %}" style="width:100%" onclick="currentSlide(1)" alt="Castrol Oil">
+                </div>
+                <div class="column">
+                <img class="demo cursor" src="{% static "HomeApp/images/img11.jpg" %}" style="width:100%" onclick="currentSlide(2)" alt="GTX">
+                </div>
+                <div class="column">
+                <img class="demo cursor" src="{% static "HomeApp/images/img12.jpg" %}" style="width:100%" onclick="currentSlide(3)" alt="Magnetic">
+                </div>
+                <div class="column">
+                <img class="demo cursor" src="{% static "HomeApp/images/img13.jpg" %}" style="width:100%" onclick="currentSlide(4)" alt="Panash">
+                </div>
+                <div class="column">
+                <img class="demo cursor" src="{% static "HomeApp/images/img14.jpg" %}" style="width:100%" onclick="currentSlide(5)" alt="Rasta">
+                </div>
+                <div class="column">
+                <img class="demo cursor" src="{% static "HomeApp/images/img15.jpg" %}" style="width:100%" onclick="currentSlide(6)" alt="Time belt">
+                </div> 
+            </div>
+        </div>
+        <p>Here you can request Quote and book next service fo your vehicle</P>
+        
+
+        <div class="cardHolder">
+            <div class="card">
+                <div class="card-hearder">
+                    <p id="head"> Update profile </p>
+                </div>
+                <div class="card-body">
+                    <img src="{% static "HomeApp/images/default.png" %}">
+                </div>
+                <div class="card-footer">
+                    <div>
+                         <a href="{% url "service:profile" %}" class="btn btn-success">Create Profile</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-hearder">
+                    <p id="head">Create you Garage</p>
+                </div>
+                <div class="card-body">
+                    <img src="{% static "HomeApp/images/car1.jpg" %}">
+                </div>
+                <div class="card-footer">
+                    <div>
+                        <a href="{% url "service:add_vehicle" %}" class="btn btn-warning">Add Vehicle</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-hearder">
+                    <p id="head">Request Quote</p>
+                </div>
+                <div class="card-body">
+                    <img src="{% static "HomeApp/images/quote.jpg" %}">
+                </div>
+                <div class="card-footer">
+                    <div>
+                        <a href="{% url "service:request_quotation" %}" class="btn btn-primary"> Get Quote </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-hearder">
+                    <p id="head">Request Quote</p>
+                </div>
+                <div class="card-body">
+                    <img src="{% static "HomeApp/images/quote.jpg" %}">
+                </div>
+                <div class="card-footer">
+                   <div>
+                    <a href="{% url "service:available_slots" %}" class="btn btn-primary"> Available Slots </a>
+                   </div>
+                </div>
+            </div>
+        </div>
+
+        <p id="DHC">#Remember Don't Hate Congradulate</p>
+        
+        
+        
+        
+
+    </div>
+    <style>
+        .card-footer > div {
+            display:flex;
+            align-items: center;  
+        }
+        #head{
+            text-align: center;
+            text-decoration: solid;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .cardHolder{
+            padding: 0.5rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .card{
+            width: 300px;
+            margin: 20px;
+            {% comment %} margin-right: 5px;
+            margin-left: 55px; {% endcomment %}
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.45);
+            border-radius: 5px;
+        }
+        .card-header{
+            display: flex;
+            text-align: center;
+        }
+        .card-body > img{
+            width: 100%;
+            height: 100%;
+        }
+       .service-container{
+        border: none;
+        margin: 5px;
+        padding: 10px;
+        margin-bottom: 30px;
+       } 
+       h2 , p{
+        text-align: center;
+       }
+       #DHC{
+        text-shadow: 1px;
+        text-size-adjust: 0.5rem;
+        text-decoration: underline;
+        color: green;
+       }
+       * {
+        box-sizing: border-box;
+        }
+
+        {% comment %} /* Position the image container (needed to position the left and right arrows) */ {% endcomment %}
+        .container {
+        position: relative;
+        }
+        img{
+            height: 60%;
+        }
+
+        {% comment %} /* Hide the images by default */ {% endcomment %}
+        .mySlides {
+        display: none;
+        border: none;
+        
+        
+        }
+        .mySlides > img{
+            max-height60%;
+        }
+
+        {% comment %} /* Add a pointer when hovering over the thumbnail images */ {% endcomment %}
+        .cursor {
+        cursor: pointer;
+        }
+
+        {% comment %} /* Next & previous buttons */ {% endcomment %}
+        .prev,
+        .next {
+        cursor: pointer;
+        position: absolute;
+        top: 40%;
+        width: auto;
+        padding: 16px;
+        margin-top: -50px;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+        -webkit-user-select: none;
+        }
+
+        {% comment %} /* Position the "next button" to the right */ {% endcomment %}
+        .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+        }
+
+        {% comment %} /* On hover, add a black background color with a little bit see-through */ {% endcomment %}
+        .prev:hover,
+        .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        {% comment %} /* Number text (1/3 etc) */ {% endcomment %}
+        .numbertext {
+        color: #f2f2f2;
+        font-size: 12px;
+        padding: 8px 12px;
+        position: absolute;
+        top: 0;
+        }
+
+        {% comment %} /* Container for image text */ {% endcomment %}
+        .caption-container {
+        text-align: center;
+        background-color: #222;
+        padding: 2px 16px;
+        color: white;
+        }
+
+        .row:after {
+        content: "";
+        display: table;
+        clear: both;
+        }
+
+        {% comment %} /* Six columns side by side */ {% endcomment %}
+        .column {
+        float: left;
+        width: 16.66%;
+        }
+
+        {% comment %} /* Add a transparency effect for thumnbail images */ {% endcomment %}
+        .demo {
+        opacity: 0.6;
+        }
+
+        .active,
+        .demo:hover {
+        opacity: 1;
+        }
+       
+    </style>
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        // Next/previous controls
+        function plusSlides(n) {
+        showSlides(slideIndex += n);
+        }
+
+        // Thumbnail image controls
+        function currentSlide(n) {
+        showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        let dots = document.getElementsByClassName("demo");
+        let captionText = document.getElementById("caption");
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex-1].style.display = "block";
+        dots[slideIndex-1].className += " active";
+        captionText.innerHTML = dots[slideIndex-1].alt;
+        }
+    </script>
+
+
+{% endblock main-content %}
+
+{% comment %} <a href="{% url "service:" %}"> </a> {% endcomment %}

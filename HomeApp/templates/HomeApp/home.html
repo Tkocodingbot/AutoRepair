@@ -1,0 +1,196 @@
+{% extends "HomeApp/base.html" %}
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Home{% endblock title %}</title>
+</head>
+<body>
+    {% block main-content %}
+        
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                    <img src="{% static "HomeApp/images/img4.jpg"  %}" style="height: 75vh; width: 100%; object-fit: contain; " alt="img1" >
+                    </div>
+                    <div class="carousel-item">
+                    <img src="{% static "HomeApp/images/img6.jpg" %}" style="height: 75vh; width: 100%; object-fit: contain;" alt="img1">
+                    </div>
+                    <div class="carousel-item">
+                    <img src="{% static "HomeApp/images/img7.jpg"%}" style="height: 75vh; width: 100%; object-fit: contain;" alt="img1">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+    
+
+    {% endblock main-content %}
+
+    {% block summary%}
+        <div class="container">
+            <h2 id="school-info">Mumbo Repairs</h2>
+            <small class="fs-5"> What began as a business—and a way to help people with their vehicle problems—slowly started to drain the passion I had for working on cars. I was losing the love that once burned so brightly in my hands. So I stepped back. I focused on my own project cars to rekindle that passion, and in doing so, I found joy again.<br/></br>
+
+            I later returned to fixing cars for people after starting my TikTok channel, where I educated others on how to do their own repairs. The demand grew, and I answered the call. But truth be told—this journey comes with its challenges.
+            
+            Some days, your patience is tested. Your morals and your ethics are questioned. Still, I fix cars because I love it. It’s who I am.
+            I’m incredibly grateful to the sponsors who walk this journey with me—GoBid, Castrol, and many others. I’m thankful for the work we do through our non-profit to empower the youth and help those who can’t afford repairs.<br/></br>
+            
+            I just pray for thicker skin, because that’s never been who I am. People will always find something bad to say. But rarely do they mention the times you went out of your way to help them, or the sacrifices made behind closed doors.
+            Fixing cars for people isn’t for everyone. Maybe it’s not even for me. But only time will tell what tomorrow holds.</small>
+        </div>
+    
+        <style>
+            .container{
+                background:rgb(26, 130, 35);
+                color: white;
+                max-width: 90%;
+                border:none black;
+                {% comment %} margin-top: -5px; {% endcomment %}
+                border-radius: 5px;
+                border-shadow: 5px rgba(83, 0, 0, 0.35);
+            }
+            h2{
+                display: flex;
+                justify-content: center;
+                
+            }
+            #school-info{
+                text-decoration: underline;
+                text-shadow: 1px 1px black;
+                font-size: 1.5rem;
+                padding:5px;
+
+            }
+        </style>
+    
+    {% endblock summary%}
+    {% block staff %}
+        <div class="card">
+            <div class="card-Hearder">
+                <p>Mumbo Repairs Family</p>
+            </div>
+            <div class="card-body">
+                <img src="{% static 'HomeApp/images/img3.jpg'%}" style="height: 75vh; width: 100%; object-fit: contain;" id="staff" >
+            </div>
+            
+        </div>
+
+        <style>
+            .card{
+                {% comment %} border: solid;
+                margin: 10px;
+                max-width: 80%;
+                border-radius:5px;
+                margin-right: 200px; {% endcomment %}
+                
+                display: flex;
+                justify-content: center;
+                margin:10px;
+                
+
+            }
+            .card-Hearder > p{
+                display: flex;
+                justify-content: center;
+                background: green;
+                {% comment %} padding: 1.5rem; {% endcomment %}
+                margin: 10px;
+                padding: 10px;
+            }
+            p{
+                font-style: Bold;
+                font-size:1.5rem;
+                color:red;
+                text-shadow: 1px 1px black;
+            }
+            
+            .card-body > img{
+                border:none;
+                display:flex;
+                justify-content:center;
+                width:100%;
+                height: 100%;
+                margin-bo
+            }
+        </style>
+    {%endblock staff %}
+    {% block sponsors %}
+        <div class="sponsor_holder"> 
+            <p>Here are your sponsors</p>
+            <div class="sponsor">
+                <img src={% static "HomeApp/images/Castrol-Logo.png"  %} style="height: 100px; width: 150px; object-fit: contain;">
+                <img src={% static "HomeApp/images/Gobid.jpg"  %} style="height: 100px; width: 150px; object-fit: contain;">
+                <img src={% static "HomeApp/images/carveticle.png"  %} style="height: 100px; width: 150px; object-fit: contain;">
+            </div>
+        </div>
+        <style>
+            .sponsor_holder{
+                border: solid;
+                margin: 10px;
+                padding: 10px;
+
+            }
+            p{
+                display: flex;
+                justify-content: center;
+            }
+            .sponsor{
+                display: flex;
+                justify-content: center;
+
+            }
+
+        </style>
+    {% endblock sponsors%}
+
+    {% block socials %}
+        <div class="socials_holder">
+            <p>follow mumbo repairs on social media</p>
+            <div class="social">
+                <img href="https://www.facebook.com/GMDfixit" class="link" src="{% static "HomeApp/images/facebook.png" %}"style="height: 80px; width: 75px; object-fit: contain;">
+                <img href="#" class="link"  src="{% static "HomeApp/images/instagram.png" %}"style="height: 80px; width: 75px; object-fit: contain;">
+                <img href="#" class="link"  src="{% static "HomeApp/images/tik-tok.png" %}"style="height: 80px; width: 75px; object-fit: contain;">
+                {% comment %} <img href="#" class="link"  src="{% static "HomeApp/images/twitter.png" %}"style="height: 80px; width: 75px; object-fit: contain;"> {% endcomment %}
+                <img href="#" class="link"  src="{% static "HomeApp/images/youtube (1).png" %}"style="height: 80px; width: 75px; object-fit: contain;">
+            </div>
+        </div>
+        <style>
+            .socials_holder{
+                background:rgba(88, 85, 85, 0.44);
+                margin: 10px;
+                padding: 10px;
+                border: solid;
+            }
+            p{
+                display: flex;
+                justify-content: center;
+            }
+            .social{
+                display: flex;
+                justify-content: center;
+            }
+            .social > img{
+               margin:1.5rem;
+               display: flex;
+               justify-content: center;
+            }
+            
+        </style>
+    {% endblock socials %}
+</body>
+</html>

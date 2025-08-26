@@ -1,0 +1,59 @@
+{% extends "HomeApp/base.html" %}
+{% load static %}
+{% block main-content %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% comment %} <div class="card">
+            <div class="card-hearder">
+                {% if user.Profile.image %}
+                    <img src="{{user.Profile.image.url}}" alt="profile picture" class="rounded-circle" width="150">
+                {% else %}
+                    <img src="{% static "HomeApp/images/default.png" %}" alt="default picture" class="rounded-circle" width="150">
+                {% endif %}
+            </div>
+            <div class="card-body">
+            <p>
+                <label for="id_First_name">First name:</label>
+                <input type="text" name="First_name" maxlength="20" id="id_First_name">    
+            </p>
+
+            
+            <p>
+                <label for="id_last_name">Last name:</label>
+                <input type="text" name="last_name" maxlength="20" id="id_last_name">   
+            </p>
+
+            
+            <p>
+                <label for="id_phone">Phone:</label>
+                <input type="text" name="phone" maxlength="10" id="id_phone">  
+            </p>
+
+            
+            <p>
+                <label for="id_Country">Country:</label>
+                <input type="text" name="Country" value="South Africa" maxlength="20" required id="id_Country">   
+            </p>
+
+            
+            <p>
+                <label for="id_Province">Province:</label>
+                <input type="text" name="Province" maxlength="20" id="id_Province">  
+            </p>
+
+            
+            <p>
+                <label for="id_wallet">Wallet:</label>
+                <input type="number" name="wallet" value="0.00" step="0.01" required id="id_wallet">   
+            </p>
+    
+            </div>
+            <div class="card=footer">
+                <input type="submit" class="btn btn-success" name="submit">
+            </div>
+        </div> {% endcomment %}
+         {{form.as_p}} 
+        <input type="submit" class="btn btn-success" name="submit">
+    </form>
+    {{error}}
+{% endblock main-content %}

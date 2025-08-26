@@ -1,0 +1,66 @@
+{% extends "HomeApp/base.html" %}
+{% load static %}
+{% block title %}Signup{% endblock title%}
+
+
+{% block main-content %}
+    <div class="container">
+        <div class="row my-3">
+            <div class="col-sm-6 offset-sm-3">
+                <h3>User Creation Page</h3>
+                <hr>
+                <form method="POST">
+                    {% csrf_token %}
+                    {% for fm in form %}
+                        {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
+                        <br>
+                    {% endfor %}
+                    {% comment %} <input type="submit" value="Submit" class="btn btn-primary">  <br> {% endcomment %}
+                    <button type='submit' class="btn btn-primary">Sign Up</button> </br>
+                    <div class="text-center text-primary fw-bold">
+                    <small>Existing User? <a href="{% url "login" %}" class="text-danger">Login Now</a><small>
+                    </div>
+
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors%}
+                            <p class="alert alert-danger my-3">{{error}}</p>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if messages %}
+                        {% for msg in messages %}
+                            <div class="alert alert-{{msg.tags}}" role="alert">
+                                {{msg}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </form>
+                
+            <div>
+        </div>
+
+    </div>
+    <style>
+        .container{
+            border: 5px black;
+            border-radius: 10px;
+            box-shadow:5px 3px 15px rgb(171, 63, 63);
+            padding: 5px;
+            max-width: 75%;
+            margin-Top:50px;
+        }
+        hr{
+            color: red;
+        }
+        h3{
+            text-shadow: 1px 1px green;
+        }
+
+    </style>
+ 
+{% endblock main-content %}
+ 
+
+
+
+

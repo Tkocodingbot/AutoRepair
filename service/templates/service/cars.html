@@ -1,0 +1,11 @@
+Hey {{user.username}}
+
+
+You have {{car.count}} car{{car.count|pluralize}}
+
+<ul>
+    {% for cars in car %}
+        {{cars.owner}}
+        {{cars.license_plate}}
+    {% endfor %}
+</ul>

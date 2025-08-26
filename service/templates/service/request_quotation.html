@@ -1,0 +1,228 @@
+
+    <!DOCTYPE html>
+        <html>
+            <head>
+                <title>Request Quotation</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        margin: 20px;
+                        background-color: #f5f5f5;
+                    }
+                    .quote-container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        background: white;
+                        padding: 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    }
+                    h2 {
+                        color: #333;
+                        border-bottom: 2px solid #4CAF50;
+                        padding-bottom: 10px;
+                    }
+                    .form-group {
+                        margin-bottom: 15px;
+                    }
+                    label {
+                        display: block;
+                        margin-bottom: 5px;
+                        font-weight: bold;
+                    }
+                    select, input[type="number"], input[type="text"], textarea {
+                        width: 100%;
+                        padding: 8px;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        box-sizing: border-box;
+                    }
+                    .btn {
+                        background-color: green;
+                        color: white;
+                        padding: 10px 15px;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 16px;
+                    }
+                    .btn:hover {
+                        background-color: #45a049;
+                    }
+                    .error {
+                        color: red;
+                        font-size: 14px;
+                    }
+                    .total-cost {
+                        margin-top: 20px;
+                        padding: 15px;
+                        background-color: #e7f3fe;
+                        border-left: 4px solid #2196F3;
+                        border-radius: 4px;
+                    }
+                    .vehicle-select {
+                        padding: 10px;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        margin-bottom: 15px;
+                    }
+                    .radio-group {
+                        display: flex;
+                        gap: 15px;
+                        margin-top: 5px;
+                    }
+                    .radio-option {
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="quote-container">
+                    <h2>Request a Quotation</h2>
+                    
+                    {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- Vehicle Selection -->
+                        <div class="form-group">
+                            <label for="vehicle">Select Your Vehicle *</label>
+                            <select name="vehicle" id="vehicle" required class="vehicle-select">
+                                <option value="">Select a vehicle</option>
+                                {% for car in cars %}
+                                <option value="{{ car.vehicle_id }}">
+                                    {{ car.name }} - {{ car.model }} ({{ car.year }}) - {{ car.license_plate }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <!-- Form Fields -->
+                        <div class="form-group">
+                            <label for="id_engine_capacity">Engine Capacity (L)</label>
+                            {{ form.engine_capacity }}
+                            {% if form.engine_capacity.errors %}
+                            <div class="error">{{ form.engine_capacity.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Fuel Type</label>
+                            <div class="radio-group">
+                                {% for choice in form.gas %}
+                                <div class="radio-option">
+                                    {{ choice.tag }}
+                                    <label for="{{ choice.id_for_label }}">{{ choice.choice_label }}</label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% if form.gas.errors %}
+                            <div class="error">{{ form.gas.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_millage">Mileage (km)</label>
+                            {{ form.millage }}
+                            {% if form.millage.errors %}
+                            <div class="error">{{ form.millage.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Transmission Type</label>
+                            <div class="radio-group">
+                                {% for choice in form.transmission %}
+                                <div class="radio-option">
+                                    {{ choice.tag }}
+                                    <label for="{{ choice.id_for_label }}">{{ choice.choice_label }}</label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% if form.transmission.errors %}
+                            <div class="error">{{ form.transmission.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_service_requested">Service Requested</label>
+                            {{ form.service_requested }}
+                            {% if form.service_requested.errors %}
+                            <div class="error">{{ form.service_requested.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_additional_notes">Additional Notes</label>
+                            {{ form.additional_notes }}
+                            {% if form.additional_notes.errors %}
+                            <div class="error">{{ form.additional_notes.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success">Calculate Quote</button>
+                    </form>
+                    
+                    {% if total_cost %}
+                    <div class="total-cost">
+                        <h3>Estimated Cost: R{{ total_cost }}</h3>
+                    </div>
+                    {% endif %}
+                </div>
+            </body>
+        </html>
+        {% comment %} <h2>Request a Service Quotaion</h2>
+        <div class="quote-container">
+            <form method="post">
+                {% csrf_token %}
+                <p>
+                    <label for="id_vehicle_type">Vehicle type:</label>
+                    <select name="vehicle_type" required="" id="id_vehicle_type">
+                        <option value="" selected="">---------</option>
+                            {% for car in cars %}
+                                <option value="1">{{car.name}}</option>
+                            {% endfor %}
+
+                    
+
+                    </select>
+                
+                
+                </p>
+                        {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Submit Request</button>
+            </form>
+            {% if total_cost is not None %}
+                <h3>Total Cost: R{{ total_cost }}</h3>
+            {% endif %}
+        </div>
+        <style>
+            h2{
+                text-align: center;
+                padding: 10px;
+                text-decoration: underline;
+            }
+            .quote-container{
+                border: rgb(14, 149, 77)solid;
+                margin: 10px;
+                padding: 5px;
+
+            }
+            form{
+                margin: 10px;
+                border: 5px solid rgba(rgb(201, 129, 129), rgb(73, 152, 73), rgb(108, 108, 202), alpha);
+                border-radius: 10px;
+            }
+        </style> {% endcomment %}
+    

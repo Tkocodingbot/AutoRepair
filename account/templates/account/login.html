@@ -1,0 +1,55 @@
+{% extends "HomeApp/base.html" %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+{% block main-content %}
+    <div class='container'>
+        <div class='col-sm-6 offset-sm-3'>
+            <h3>Login</h3>
+            <hr>
+            <form method='POST'>
+                {% csrf_token %}
+                {% for fm in form %}
+                    {{fm.label_tag}}{{fm}} <small class='text-danger'>{{fm.errors|striptags}}</small> <br>
+                {% endfor %}
+
+                <small><a href={% url 'password_reset' %}> Forgot Password ?</a></small> <br>
+                <input type="submit" class="btn btn-primary mt-4" value="Login">
+                <div class="text-center text-primary fw-bold">
+                    <small>New User? <a href = {% url "signupuser" %} class="text-danger">Create Account</a></small>
+                </div>
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger my-3">{{error}}</p>
+                    {% endfor %}
+                {% endif%}
+            </form>
+            
+
+
+        </div>
+    </div>
+    <style>
+        .container{
+            border: 5px black;
+            border-radius: 10px;
+            box-shadow:5px 3px 15px rgba(153, 52, 52, 0.58);
+            padding: 5px;
+            max-width: 75%;
+            margin-top:50px;
+           
+        }
+        hr{
+            color: red;
+        }
+        h3{
+            text-shadow: 1px 1px green;
+            margin: 5px;
+        }
+        .text-center{
+            margin: 5px;
+        }
+        
+
+    </style>
+
+{% endblock main-content %}

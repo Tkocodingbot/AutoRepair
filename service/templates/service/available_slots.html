@@ -1,0 +1,264 @@
+{% extends "HomeApp/base.html" %}
+{% load static %}
+{% block main-content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <h1 class="display-4 text-primary mb-3">📅 Book Your Service Slot</h1>
+                <p class="lead text-muted">Select your quotation and choose an available time slot</p>
+            </div>
+
+            <!-- Messages -->
+            {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Availability Status Cards -->
+            <div class="row mb-4">
+                <div class="col-md-6 mb-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <div class="d-flex justify-content-center align-items-center mb-3">
+                                <span class="display-6 text-primary">📋</span>
+                            </div>
+                            <h5 class="card-title">Available Quotations</h5>
+                            <h2 class="text-primary">{{ quotes.count }}</h2>
+                            <p class="text-muted small">Quotations ready for booking</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <div class="d-flex justify-content-center align-items-center mb-3">
+                                <span class="display-6 text-success">⏰</span>
+                            </div>
+                            <h5 class="card-title">Available Slots</h5>
+                            <h2 class="text-success">{{ slots.count }}</h2>
+                            <p class="text-muted small">Time slots available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- No Available Content Messages -->
+            {% if quotes.count == 0 %}
+            <div class="alert alert-info d-flex align-items-center">
+                <i class="fas fa-info-circle me-3 fs-4"></i>
+                <div>
+                    <h5 class="alert-heading mb-2">No Available Quotations</h5>
+                    <p class="mb-0">All your quotations already have bookings. Please create a new quotation to book a service.</p>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if slots.count == 0 %}
+            <div class="alert alert-warning d-flex align-items-center">
+                <i class="fas fa-clock me-3 fs-4"></i>
+                <div>
+                    <h5 class="alert-heading mb-2">No Available Time Slots</h5>
+                    <p class="mb-0">All time slots are currently booked. Please check back later for new availability.</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Booking Form -->
+            {% if quotes.count > 0 and slots.count > 0 %}
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0"><i class="fas fa-calendar-plus me-2"></i>Make a Booking</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Quotation Selection -->
+                        <div class="mb-4">
+                            <label for="id_quotation" class="form-label fw-semibold">
+                                <i class="fas fa-file-invoice me-2 text-primary"></i>Select Your Quotation *
+                            </label>
+                            {{ form.quotation }}
+                            {% if form.quotation.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.quotation.errors }}
+                            </div>
+                            {% endif %}
+                            <div class="form-text">Choose the quotation you want to book for</div>
+                        </div>
+
+                        <!-- Time Slot Selection -->
+                        <div class="mb-4">
+                            <label for="id_time_slot" class="form-label fw-semibold">
+                                <i class="fas fa-clock me-2 text-primary"></i>Select Time Slot *
+                            </label>
+                            {{ form.time_slot }}
+                            {% if form.time_slot.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.time_slot.errors }}
+                            </div>
+                            {% endif %}
+                            <div class="form-text">Choose your preferred available time slot</div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg py-3">
+                                <i class="fas fa-calendar-check me-2"></i>Confirm Booking
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Available Quotations Section -->
+            {% if quotes.count > 0 %}
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-header bg-light py-3">
+                    <h5 class="mb-0"><i class="fas fa-list me-2 text-primary"></i>Your Available Quotations</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for quote in quotes %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-primary border-2 h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title text-primary">Quotation #{{ quote.quotereq_id }}</h6>
+                                    <p class="card-text mb-1">
+                                        <small class="text-muted">
+                                            <i class="fas fa-car me-1"></i>{{ quote.vehicle_type }}
+                                        </small>
+                                    </p>
+                                    <p class="card-text mb-1">
+                                        <small class="text-muted">
+                                            <i class="fas fa-tools me-1"></i>{{ quote.service_requested }}
+                                        </small>
+                                    </p>
+                                    <p class="card-text mb-1">
+                                        <small class="text-muted">
+                                            <i class="fas fa-money-bill-wave me-1"></i>R{{ quote.total_cost }}
+                                        </small>
+                                    </p>
+                                    <p class="card-text">
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar me-1"></i>{{ quote.created_at|date:"M d, Y" }}
+                                        </small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Available Slots Section -->
+            {% if slots.count > 0 %}
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-header bg-light py-3">
+                    <h5 class="mb-0"><i class="fas fa-clock me-2 text-success"></i>Available Time Slots</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for slot in slots %}
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="card border-success border-2 h-100">
+                                <div class="card-body text-center">
+                                    <h6 class="card-title text-success mb-3">
+                                        <i class="fas fa-calendar-day me-2"></i>{{ slot.start_time|date:"M d, Y" }}
+                                    </h6>
+                                    <p class="card-text fs-5 fw-bold text-dark">
+                                        {{ slot.start_time|time:"H:i" }} - {{ slot.end_time|time:"H:i" }}
+                                    </p>
+                                    <span class="badge bg-success">Available</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom Styles */
+    .card {
+        border-radius: 15px;
+        transition: transform 0.2s ease-in-out;
+    }
+    
+    .card:hover {
+        transform: translateY(-2px);
+    }
+    
+    select.form-select {
+        border-radius: 10px;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        transition: border-color 0.2s ease;
+    }
+    
+    select.form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+    
+    .btn-primary {
+        background: linear-gradient(45deg, #0d6efd, #0a58ca);
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
+    }
+    
+    .alert {
+        border-radius: 12px;
+        border: none;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+    }
+</style>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<script>
+    // Add Bootstrap validation
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+{% endblock main-content %}
+

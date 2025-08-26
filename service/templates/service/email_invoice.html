@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice #{{ invoice.invoice_number }}</title>
+</head>
+<body>
+    <h1>Invoice #{{ invoice.invoice_number }}</h1>
+    <p>Hello {{ user.username }}</p>
+
+    <h2>Service Details</h2>
+    <p>Booking Date : {{ booking.time_slot.start_time }}</p>
+    <p>vehicle Type : {{ booking.quotaion.request.vehicle }}</p>
+
+
+    <h2>Payment Details</h2>
+    <p>Amount : R{{ invoice.amount }}</p>
+    <p>Tax : R{{ invoice.tax_amount }}</p>
+    <p><strong>Total : R{{ invoice.total_amount }}</strong></p>
+    <p>Due Date : {{ invoice.due_date }}</p>
+
+    <p>Thank you for choosing Mumbo Repairs</p>
+
+    
+</body>
+</html>
