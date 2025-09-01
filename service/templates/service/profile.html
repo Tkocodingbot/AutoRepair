@@ -1,59 +1,318 @@
 {% extends "HomeApp/base.html" %}
 {% load static %}
 {% block main-content %}
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% comment %} <div class="card">
-            <div class="card-hearder">
-                {% if user.Profile.image %}
-                    <img src="{{user.Profile.image.url}}" alt="profile picture" class="rounded-circle" width="150">
-                {% else %}
-                    <img src="{% static "HomeApp/images/default.png" %}" alt="default picture" class="rounded-circle" width="150">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - ServiceHub</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .profile-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 20px;
+        }
+        
+        .profile-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .profile-header {
+            background: linear-gradient(45deg, #5ced38ff, #965858b6);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.5);
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+        
+        .profile-body {
+            padding: 2rem;
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-title {
+            color:black;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ced4da;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.15);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .image-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #eee;
+            margin: 1rem auto;
+            display: block;
+        }
+        
+        .wallet-balance {
+            background: linear-gradient(45deg, #4adf3dff, #51ee43ff);
+            color: white;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #c62828;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 10px;
+                margin: 1rem auto;
+            }
+            
+            .profile-header {
+                padding: 1.5rem;
+            }
+            
+            .profile-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <h1><i class="bi bi-person-circle"></i> Edit Your Profile</h1>
+                <p class="lead">Update your personal information and preferences</p>
+            </div>
+            
+            <div class="profile-body">
+                <!-- Error Message Display -->
+                {% if error %}
+                <div class="error-message">
+                    <i class="bi bi-exclamation-triangle-fill"></i> {{ error }}
+                </div>
                 {% endif %}
+                
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <!-- Profile Image Section -->
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="bi bi-image"></i> Profile Image</h3>
+                        <div class="row">
+                            <div class="col-md-4 text-center">
+                                {% if prof.image %}
+                                    <img id="avatar-preview" src="{{ prof.image.url }}" class="image-preview" alt="Current Profile Image">
+                                {% else %}
+                                    <img id="avatar-preview" src="https://via.placeholder.com/150" class="image-preview" alt="Default Profile Image">
+                                {% endif %}
+                                <div class="mt-3">
+                                    <input type="file" id="image-upload" name="image" accept="image/*" class="form-control">
+                                </div>
+                                {% comment %} <small class="text-muted">Recommended: Square image, at least 200x200 pixels</small> {% endcomment %}
+                            </div>
+                            {% comment %} <div class="col-md-8">
+                                <p>Your profile image helps others recognize you. Choose a clear, friendly photo where your face is visible.</p>
+                            </div> {% endcomment %}
+                        </div>
+                    </div>
+                    
+                    <!-- Personal Information Section -->
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="bi bi-person-badge"></i> Personal Information</h3>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="First_name" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="First_name" name="First_name" value="{{ form.First_name.value|default:'' }}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="last_name" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ form.last_name.value|default:'' }}" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" value="{{ form.phone.value|default:'' }}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Location Information -->
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="bi bi-geo-alt"></i> Location</h3>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="Country" class="form-label">Country</label>
+                                <input type="text" class="form-control" id="Country" name="Country" value="{{ form.Country.value|default:'' }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="Province" class="form-label">State/Province</label>
+                                <input type="text" class="form-control" id="Province" name="Province" value="{{ form.Province.value|default:'' }}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Wallet Information -->
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="bi bi-wallet2"></i> Wallet</h3>
+                        <div class="wallet-balance">
+                            <h4>Current Balance</h4>
+                            <h2>R{{ form.wallet.value|default:"0.00" }}</h2>
+                        </div>
+                        <div class="mb-3">
+                            <label for="wallet" class="form-label">Update Wallet Balance</label>
+                            <input type="number" step="0.01" class="form-control" id="wallet" name="wallet" value="{{ form.wallet.value|default:'' }}">
+                        </div>
+                    </div>
+                    
+                    <!-- Form Actions -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="#" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
             </div>
-            <div class="card-body">
-            <p>
-                <label for="id_First_name">First name:</label>
-                <input type="text" name="First_name" maxlength="20" id="id_First_name">    
-            </p>
+        </div>
+    </div>
 
-            
-            <p>
-                <label for="id_last_name">Last name:</label>
-                <input type="text" name="last_name" maxlength="20" id="id_last_name">   
-            </p>
-
-            
-            <p>
-                <label for="id_phone">Phone:</label>
-                <input type="text" name="phone" maxlength="10" id="id_phone">  
-            </p>
-
-            
-            <p>
-                <label for="id_Country">Country:</label>
-                <input type="text" name="Country" value="South Africa" maxlength="20" required id="id_Country">   
-            </p>
-
-            
-            <p>
-                <label for="id_Province">Province:</label>
-                <input type="text" name="Province" maxlength="20" id="id_Province">  
-            </p>
-
-            
-            <p>
-                <label for="id_wallet">Wallet:</label>
-                <input type="number" name="wallet" value="0.00" step="0.01" required id="id_wallet">   
-            </p>
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
     
-            </div>
-            <div class="card=footer">
-                <input type="submit" class="btn btn-success" name="submit">
-            </div>
-        </div> {% endcomment %}
-         {{form.as_p}} 
-        <input type="submit" class="btn btn-success" name="submit">
-    </form>
-    {{error}}
+    <!-- Custom JavaScript for Image Preview -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Image preview functionality
+            const imageUpload = document.getElementById('image-upload');
+            const avatarPreview = document.getElementById('avatar-preview');
+            
+            if (imageUpload && avatarPreview) {
+                imageUpload.addEventListener('change', function() {
+                    const file = this.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            avatarPreview.src = e.target.result;
+                        }
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+            
+            // Form validation
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                let isValid = true;
+                const firstName = document.getElementById('First_name');
+                const lastName = document.getElementById('last_name');
+                
+                if (!firstName.value.trim()) {
+                    isValid = false;
+                    firstName.classList.add('is-invalid');
+                } else {
+                    firstName.classList.remove('is-invalid');
+                }
+                
+                if (!lastName.value.trim()) {
+                    isValid = false;
+                    lastName.classList.add('is-invalid');
+                } else {
+                    lastName.classList.remove('is-invalid');
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    alert('Please fill in all required fields (First Name and Last Name).');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
 {% endblock main-content %}

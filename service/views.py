@@ -79,6 +79,39 @@ def my_invoice(request):
 def home(request):
     return render(request, 'service/home.html')
 
+@login_required
+def vehicle_management(request):
+    # Handle form submission for adding a vehicle
+    if request.method == 'POST':
+        try:
+            form = VehicleForm(request.POST)
+            if form.is_valid():
+                car = form.save(commit=False)
+                car.owner = request.user
+                car.save()
+                return redirect('vehicle_management')
+            else:
+                # If form is invalid, show error
+                cars = Vehicle.objects.filter(owner=request.user)
+                return render(request, 'service/vehicle_management.html', {
+                    'form': form,
+                    'car': cars,
+                    'error': 'There was an error with the entered information. Please try again.'
+                })
+        except ValueError:
+            cars = Vehicle.objects.filter(owner=request.user)
+            return render(request, 'service/vehicle_management.html', {
+                'form': VehicleForm(),
+                'car': cars,
+                'error': 'There was an error with the entered information. Please try again.'
+            })
+    
+    # For GET requests, show both form and vehicle list
+    cars = Vehicle.objects.filter(owner=request.user)
+    return render(request, 'service/vehicle_management.html', {
+        'form': VehicleForm(),
+        'car': cars
+    })
 
 @login_required
 def add_vehicle(request):
@@ -224,6 +257,7 @@ def GetQuote(request):
             quote.save()
             
             messages.success(request, "Quotation created successfully!")
+            return redirect('service:available_slots')
             # return redirect('quotation_detail', quote_id=quote.quotereq_id)  # Redirect to a success page
             
     else:  # GET request
@@ -234,8 +268,6 @@ def GetQuote(request):
         'cars': cars,
         'total_cost': total_cost
     })
-
-    
 
 @login_required
 def book_slot(request):
@@ -282,3 +314,9 @@ def book_slot(request):
         form = BookingForm(user=request.user)
     
     return render(request, "service/available_slots.html", {"form": form,  "quotes": quotes,"slots": slots})
+
+@login_required
+def Dashboard(request):
+    booking = Booking.objects.filter(status = "pending")
+    
+    return render(request, 'service/dashboard.html',{'booking':booking})

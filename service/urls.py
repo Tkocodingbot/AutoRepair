@@ -18,6 +18,8 @@ urlpatterns = [
     path('vehicle/', views.add_vehicle, name='add_vehicle'),
     path('Cars/', views.Cars, name='Cars'),
     path('profile', views.EditProfileView, name='profile'), 
+    path('vehicles/', views.vehicle_management, name='vehicle_management'),
+     path('dashboard/', views.Dashboard, name='dashboard'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) 
