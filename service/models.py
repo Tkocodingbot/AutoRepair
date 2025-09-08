@@ -13,7 +13,7 @@ class Vehicle(models.Model):
     license_plate = models.CharField(max_length=12, blank=True, null=True)
     
     def __str__(self):
-        return f'{self.name} for {self.owner}'
+        return f'{self.name}'
 
 class Services(models.Model):
     service_id = models.AutoField(primary_key=True, unique=True)
@@ -63,11 +63,13 @@ class Quotation(models.Model):
     
 class TimeSlot(models.Model):
     timeslot_id = models.AutoField(primary_key=True, unique=True) 
+    date = models.DateField(blank=True, null=True)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     is_available = models.BooleanField(default=True)
 
     def __str__(self):
+        #return f"{self.date} for {self.start_time} - {self.end_time}"
         return f"{self.start_time.strftime('%Y-%m-%d %H:%M')} to {self.end_time.strftime('%H:%M')}"
     def clean_time_slot(self):
         time_slot = self.cleaned_data.get('time_slot')

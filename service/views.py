@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views import View
 from .models import QuotationRequest, Quotation, Services, Vehicle, TimeSlot, Booking,Invoice
-from .forms import QuotationRequestForm, BookingForm, VehicleForm
+from .forms import QuotationRequestForm, BookingForm, TimeSlotForm, VehicleForm
 
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -15,8 +15,12 @@ from django.conf import settings
 
 from account.models import Profile
 from account.forms import ProfileForm
+from django.http import Http404
 
 from django.db import transaction, IntegrityError
+
+from django.core.paginator import Paginator  # used in pagination
+from django.db.models import Q  #used to apply queryset for search and filter 
 
 @login_required
 def my_quotations(request):
@@ -318,5 +322,58 @@ def book_slot(request):
 @login_required
 def Dashboard(request):
     booking = Booking.objects.filter(status = "pending")
+    P_booking = Booking.objects.filter(status='confirmed')
     
-    return render(request, 'service/dashboard.html',{'booking':booking})
+    return render(request, 'service/dashboard.html',{'booking':booking, 'P_booking':P_booking})
+
+@login_required
+def Time_slot(request):
+    form = TimeSlotForm()
+    if request.method == 'GET':
+        return render(request, 'service/time.html', {'form':form})
+    else:
+        form = TimeSlotForm(request.POST)
+        if form.is_valid():
+            form.save()  
+            messages.success(request, "Time slot created successfully")  
+        return render(request, 'service/time.html', {'form':form})
+    
+@login_required
+# def bookings(request):
+#     print("Bookingd :", bookings)
+#     bookings = Booking.objects.all()
+#     if request.method == 'GET':
+       
+#         return render(request, 'service/bookings.html',{'bookings':bookings})
+
+def bookings(request):
+    bookings_list = Booking.objects.select_related('time_slot', 'user').all().order_by('-created_at')
+    
+    # Apply filters
+    status_filter = request.GET.get('status')
+    search_filter = request.GET.get('search')
+    
+    if status_filter:
+        bookings_list = bookings_list.filter(status=status_filter)
+    
+    if search_filter:
+        bookings_list = bookings_list.filter(
+            Q(user__first_name__icontains=search_filter) |
+            Q(user__last_name__icontains=search_filter) |
+            Q(user__username__icontains=search_filter) |
+            Q(time_slot__date__icontains=search_filter) |
+            Q(status__icontains=search_filter)
+        )
+    
+    # Pagination - 10 items per page
+    paginator = Paginator(bookings_list, 10)
+    page_number = request.GET.get('page')
+    bookings = paginator.get_page(page_number)
+    
+    
+    # # Get all bookings from the database
+    # bookings = Booking.objects.all().order_by('-booking_date', '-booking_time')
+    
+    
+    if request.method == 'GET':
+        return render(request, 'service/bookings.html', {'bookings': bookings})

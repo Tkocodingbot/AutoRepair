@@ -74,3 +74,8 @@ class VehicleForm(forms.ModelForm):
     class Meta:
         model = Vehicle
         fields = ['name', 'model', 'year', 'vin_number', 'license_plate']
+        
+class TimeSlotForm(forms.ModelForm):
+    class Meta:
+        model = TimeSlot
+        fields = ['date','start_time','end_time']

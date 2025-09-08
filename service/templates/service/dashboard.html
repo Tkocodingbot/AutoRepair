@@ -2,24 +2,46 @@
 {% load static %}
 
 {% block main-content %}
-<div class='container my-5'>
-    <div class="row">
+<div class="container my-5">
+    <div class="row mb-3">
         <h3>Welcome admins <span class="text-capitalize">{{request.user}}</span></h3>
     </div>
 
-    <div class="col-sm-2 border-end">
-        <ul class="list-unstyled">
-            <li class="d-grid"><a href="#" class="btn btn-primary">Overwiew</a></li>
-            <li class="d-grid"><a href="#" class="btn">Bookings</a></li>
-            <li class="d-grid"><a href="#" class="btn">Time-slotes</a></li>
-            <li class="d-grid"><a href="#" class="btn">Technicians</a></li>
-            
-        </ul>
-    </div>
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-sm-2 border-end">
+            <ul class="list-unstyled">
+                <li class="d-grid mb-2"><a href="{% url "service:dashboard" %}" class="btn btn-success">Overview</a></li>
+                <li class="d-grid mb-2"><a href="{% url "service:bookings" %}" class="btn btn-outline-secondary">Bookings</a></li>
+                <li class="d-grid mb-2"><a href="{% url "service:slot" %}" class="btn btn-outline-secondary">Time-slots</a></li>
+                <li class="d-grid mb-2"><a href="#" class="btn btn-outline-secondary">Technicians</a></li>
+            </ul>
+        </div>
 
-    <div class="col-sm-8 offset-sm-1">
-        <div class="list-container">
-            <p>Welcome</p>
+        <!-- Main content -->
+        <div class="col-sm-10">
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            {{booking.count}}
+                        </div>
+                        <div class="card-footer text-center">
+                            <p>Pending bookings</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            {{P_booking.count}}
+                        </div>
+                        <div class="card-footer text-center">
+                            <p>Approved bookings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
