@@ -25,7 +25,7 @@ class Signupuser(View):
             
             # user = authenticate(username=username, password=password)
             # login(request, user)
-            messages.success(request,f"Congrdultions {username} your account is created successfully")
+            messages.success(request,"Congrdultions {username} your account is created successfully")
             
             # profile = Profile.objects.get(user=request.user)
             
@@ -38,5 +38,5 @@ class Signupuser(View):
     
 def logout(request):
     auth_logout(request)
-    messages.success(request,f"You've successfully logged out")
+    messages.success(request,{" successfully logged out"})
     return redirect('home')

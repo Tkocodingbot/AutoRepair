@@ -1,5 +1,5 @@
 # from pyexpat.errors import messages
-from datetime import timezone
+from datetime import datetime, timezone
 import logging
 from django.contrib import messages
 from django.http import Http404
@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views import View
 from .models import QuotationRequest, Quotation, Services, Vehicle, TimeSlot, Booking,Invoice
-from .forms import QuotationRequestForm, BookingForm, TimeSlotForm, VehicleForm
+from .forms import QuotationRequestForm, BookingForm, TechniciansForm, TimeSlotForm, VehicleForm
 
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -339,19 +339,23 @@ def Time_slot(request):
         return render(request, 'service/time.html', {'form':form})
     
 @login_required
-# def bookings(request):
-#     print("Bookingd :", bookings)
-#     bookings = Booking.objects.all()
-#     if request.method == 'GET':
-       
-#         return render(request, 'service/bookings.html',{'bookings':bookings})
-
 def bookings(request):
     bookings_list = Booking.objects.select_related('time_slot', 'user').all().order_by('-created_at')
     
     # Apply filters
+    #  
     status_filter = request.GET.get('status')
     search_filter = request.GET.get('search')
+    
+    # if date_filter:
+    #     try:
+    #         # Convert string to date object
+    #         filter_date = datetime.strptime(date_filter, '%Y-%m-%d').date()
+    #         # Filter by date field - replace 'date_field' with your actual field name
+    #         bookings = bookings_list.filter(date_field=filter_date)
+    #     except (ValueError, TypeError):
+    #         # Invalid date format, ignore the filter
+    #         pass
     
     if status_filter:
         bookings_list = bookings_list.filter(status=status_filter)
@@ -377,3 +381,30 @@ def bookings(request):
     
     if request.method == 'GET':
         return render(request, 'service/bookings.html', {'bookings': bookings})
+    
+@login_required
+def tech(request):
+    if request.method == "POST":
+        form = TechniciansForm(request.POST)   # pass POST data here
+        if form.is_valid():                    # no arguments here
+            form.save()
+            # optionally redirect after save
+            return redirect('service:tech')  
+    else:  # GET request
+        form = TechniciansForm()               # empty form
+
+    return render(request, 'service/tech.html', {'form': form})
+
+
+def viewQuote(request, quotereq_id):
+    vquote = get_object_or_404(QuotationRequest, quotereq_id=quotereq_id)
+    if request.method == "GET":
+        form = QuotationRequestForm(instance=vquote)
+        
+        return render(request,"service/tech.html",{'vquote':vquote, 'form':form})
+
+
+    
+
+        
+        

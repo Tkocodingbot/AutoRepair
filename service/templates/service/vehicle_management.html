@@ -47,7 +47,7 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .btn-add-vehicle {
-            background: linear-gradient(135deg, #f9ec3dff 0%, #b2c920ff 100%);
+            background: linear-gradient(135deg, #cfc430ff 0%, #c92020ff 100%);
             border: none;
             padding: 10px 20px;
             font-weight: bold;
@@ -78,7 +78,7 @@
             {{ error }}
           </div> {% endif %} <form method="POST"> {% csrf_token %} <div class="mb-3">
               <label for="name" class="form-label">Vehicle Name</label>
-              <input type="text" class="form-control" id="name" name="name" placeholder="e.g. My Daily Driver" required>
+              <input type="text" class="form-control" id="name" name="name" placeholder="e.g. Toyota" required>
             </div>
             <div class="mb-3">
               <label for="model" class="form-label">Model</label>

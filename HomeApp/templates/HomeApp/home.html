@@ -192,5 +192,332 @@
             
         </style>
     {% endblock socials %}
+    {% block Gallery %}
+        <style>
+            * {
+            box-sizing: border-box;
+            }
+
+            body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            }
+
+            .header {
+            text-align: center;
+            padding: 32px;
+            }
+
+            .row {
+            display: -ms-flexbox; /* IE 10 */
+            display: flex;
+            -ms-flex-wrap: wrap; /* IE 10 */
+            flex-wrap: wrap;
+            padding: 0 4px;
+            }
+
+            /* Create two equal columns that sits next to each other */
+            .column {
+            -ms-flex: 50%; /* IE 10 */
+            flex: 50%;
+            padding: 0 4px;
+            }
+
+            .column img {
+            margin-top: 8px;
+            vertical-align: middle;
+            }
+
+            /* Style the buttons */
+            .btn {
+            border: none;
+            outline: none;
+            padding: 10px 16px;
+            background-color: #f1f1f1;
+            cursor: pointer;
+            font-size: 18px;
+            }
+
+            .btn:hover {
+            background-color: #ddd;
+            }
+
+            .btn.active {
+            background-color: #666;
+            color: white;
+            }
+        </style>
+
+
+        <!-- Header -->
+        <div class="header" id="myHeader">
+        <h1>Rebuild Gallery</h1>
+        <p>Click on the buttons to change the grid view.</p>
+        <button class="btn" onclick="one()">1</button>
+        <button class="btn active" onclick="two()">2</button>
+        <button class="btn" onclick="four()">4</button>
+        </div>
+
+        <!-- Photo Grid -->
+        <div class="row"> 
+        <div class="column">
+            <img src="{% static "HomeApp/images/p1.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/car1.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/g2.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/g3.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/gti.jpg" %}" style="width:100%">
+            
+        </div>
+        <div class="column">
+            <img src="{% static "HomeApp/images/p1.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/g1.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/car1.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/g3.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/gti.jpg" %}" style="width:100%">
+        </div>  
+        <div class="column">
+            <img src="{% static "HomeApp/images/p1.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/car1.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/g2.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/g3.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/gti.jpg" %}" style="width:100%">
+        </div>
+        <div class="column">
+            <img src="{% static "HomeApp/images/car1.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/g1.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/g2.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/g3.jpg" %}" style="width:100%">
+            <img src="{% static "HomeApp/images/gti.jpg" %}" style="width:100%">
+        </div>
+        
+
+        <script>
+        // Get the elements with class="column"
+        var elements = document.getElementsByClassName("column");
+
+        // Declare a loop variable
+        var i;
+
+        // Full-width images
+        function one() {
+            for (i = 0; i < elements.length; i++) {
+            elements[i].style.msFlex = "100%";  // IE10
+            elements[i].style.flex = "100%";
+        }
+        }
+
+        // Two images side by side
+        function two() {
+        for (i = 0; i < elements.length; i++) {
+            elements[i].style.msFlex = "50%";  // IE10
+            elements[i].style.flex = "50%";
+        }
+        }
+
+        // Four images side by side
+        function four() {
+        for (i = 0; i < elements.length; i++) {
+            elements[i].style.msFlex = "25%";  // IE10
+            elements[i].style.flex = "25%";
+        }
+        }
+
+        // Add active class to the current button (highlight it)
+        var header = document.getElementById("myHeader");
+        var btns = header.getElementsByClassName("btn");
+        for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function() {
+            var current = document.getElementsByClassName("active");
+            current[0].className = current[0].className.replace(" active", "");
+            this.className += " active";
+        });
+        }
+        </script>
+    {% endblock Gallery %}
+    
+    {% comment %} {% block footer %}
+        <div id="footerwrapper">
+            <style>
+                @media screen and (max-width: 1450px) {
+                #spacemyfooter {
+                    max-width:1100px;
+                }
+                .footerlinks_1 {
+                    padding-left:30px;
+                    padding-right:30px;
+                }
+                .footerlinks_2 {
+                    padding-right:30px;
+                }
+                .footerlinks_2:nth-child(1) {
+                    padding-left:50px;
+                }
+                .footer-hide-special {
+                    display:none;
+                }
+                }
+                @media screen and (max-width: 1100px) {
+                #spacemyfooter {
+                    max-width:1000px;
+                }
+                .footerlinks_1 {
+                    padding-left:20px;
+                    padding-right:20px;
+                }
+                .footerlinks_2 {
+                    padding-right:20px;
+                }
+                .footerlinks_2:nth-child(1) {
+                    padding-left:20px;
+                }
+                }
+            </style>
+            <div id="spacemyfooter">
+
+                <div style="overflow:hidden;">
+                <div class="footerlinks_1">
+                <a href="//www.w3schools.com" class="ga-bottom" aria-label="W3Schools.com" alt="W3Schools.com">
+                    <i class="fa fa-logo"></i>
+                </a>
+            </div>
+
+            <div class="footerlinks_1"><a href="/plus/index.php" title="Become a PLUS user and unlock powerful features" class="ga-bottom ga-bottom-plus">PLUS</a></div>
+            <div class="footerlinks_1"><a href="/spaces/index.php" title="Get your own website with W3Schools Spaces" class="ga-bottom ga-bottom-spaces">SPACES</a></div>
+            <div class="footerlinks_1"><a href="https://campus.w3schools.com/collections/certifications" title="Document your knowledge by getting certified" target="_blank" class="ga-bottom ga-bottom-cert">GET CERTIFIED</a></div>
+            <div class="footerlinks_1"><a href="/academy/index.php" title="Contact us about W3Schools Academy for educational institutions" target="_blank" class="ga-bottom ga-bottom-teachers">FOR TEACHERS</a></div>
+            <div class="footerlinks_1"><a href="/academy/index.php" target="_blank">FOR BUSINESS</a></div>
+            <div class="footerlinks_1"><a href="javascript:void(0);" title="Contact us about sales or errors" onclick="reportError();return false">CONTACT US</a></div>
+            
+            <style>
+                /*Remove this style after 20. April 2024*/
+                #err_message {
+                padding:8px 16px 16px 40px;
+                border-radius:5px;
+                display:none;
+                position:relative;
+                background-color:#2D3748;
+                color:#FFF4A3;
+                font-family:'Source Sans Pro', sans-serif;
+                }
+                #err_message h2 {
+                font-family:'Source Sans Pro', sans-serif;
+                }
+                #err_message p {
+                color:#f1f1f1;
+                }
+                #err_message #close_err_message {
+                position:absolute;
+                right:0;
+                top:0;
+                font-size:20px;
+                cursor:pointer;
+                width:30px;
+                height:30px;
+                text-align:center;
+                }
+                #err_message #close_err_message:hover {
+                background-color:#FFF4A3;
+                color:#2D3748;
+                border-radius:50%
+                }
+            </style>
+
+            <div id="err_message">
+                <span id="close_err_message" onclick="this.parentElement.style.display='none'">×</span>
+                <h2>Contact Sales</h2>
+                <p>If you want to use W3Schools services as an educational institution, team or enterprise, send us an e-mail:<br>sales@w3schools.com</p>
+                <h2>Report Error</h2>
+                <p>If you want to report an error, or if you want to make a suggestion, send us an e-mail:<br>help@w3schools.com</p>
+            </div>
+
+
+            <div style="overflow:hidden;">
+                <div class="footerlinks_2">
+                    <h5 style="font-family: 'Source Sans Pro', sans-serif;">Top Tutorials</h5>
+                    <a href="/html/default.asp" class="ga-bottom">HTML Tutorial</a><br>
+                    <a href="/css/default.asp" class="ga-bottom">CSS Tutorial</a><br>
+                    <a href="/js/default.asp" class="ga-bottom">JavaScript Tutorial</a><br>
+                    <a href="/howto/default.asp" class="ga-bottom">How To Tutorial</a><br>
+                    <a href="/sql/default.asp" class="ga-bottom">SQL Tutorial</a><br>
+                    <a href="/python/default.asp" class="ga-bottom">Python Tutorial</a><br>
+                    <a href="/w3css/default.asp" class="ga-bottom">W3.CSS Tutorial</a><br>
+                    <a href="/bootstrap/bootstrap_ver.asp" class="ga-bottom">Bootstrap Tutorial</a><br>
+                    <a href="/php/default.asp" class="ga-bottom">PHP Tutorial</a><br>
+                    <a href="/java/default.asp" class="ga-bottom">Java Tutorial</a><br>
+                    <a href="/cpp/default.asp" class="ga-bottom">C++ Tutorial</a><br>
+                    <a href="/jquery/default.asp" class="ga-bottom">jQuery Tutorial</a><br>
+                </div>
+                <div class="footerlinks_2">
+                    <h5 style="font-family: 'Source Sans Pro', sans-serif;">Top References</h5>
+                    <a href="/tags/default.asp" class="ga-bottom">HTML Reference</a><br>
+                    <a href="/cssref/index.php" class="ga-bottom">CSS Reference</a><br>
+                    <a href="/jsref/default.asp" class="ga-bottom">JavaScript Reference</a><br>
+                    <a href="/sql/sql_ref_keywords.asp" class="ga-bottom">SQL Reference</a><br>
+                    <a href="/python/python_reference.asp" class="ga-bottom">Python Reference</a><br>
+                    <a href="/w3css/w3css_references.asp" class="ga-bottom">W3.CSS Reference</a><br>
+                    <a href="/bootstrap/bootstrap_ref_all_classes.asp" class="ga-bottom">Bootstrap Reference</a><br>
+                    <a href="/php/php_ref_overview.asp" class="ga-bottom">PHP Reference</a><br>
+                    <a href="/colors/colors_names.asp" class="ga-bottom">HTML Colors</a><br>
+                    <a href="/java/java_ref_keywords.asp" class="ga-bottom">Java Reference</a><br>
+                    <a href="/angular/angular_ref_directives.asp" class="ga-bottom">Angular Reference</a><br>
+                    <a href="/jquery/jquery_ref_overview.asp" class="ga-bottom">jQuery Reference</a><br>
+                </div>
+                <div class="footerlinks_2">
+                    <h5 style="font-family: 'Source Sans Pro', sans-serif;">Top Examples</h5>
+                    <a href="/html/html_examples.asp" class="ga-bottom">HTML Examples</a><br>
+                    <a href="/css/css_examples.asp" class="ga-bottom">CSS Examples</a><br>
+                    <a href="/js/js_examples.asp" class="ga-bottom">JavaScript Examples</a><br>
+                    <a href="/howto/default.asp" class="ga-bottom">How To Examples</a><br>
+                    <a href="/sql/sql_examples.asp" class="ga-bottom">SQL Examples</a><br>
+                    <a href="/python/python_examples.asp" class="ga-bottom">Python Examples</a><br>
+                    <a href="/w3css/w3css_examples.asp" class="ga-bottom">W3.CSS Examples</a><br>
+                    <a href="/bootstrap/bootstrap_examples.asp" class="ga-bottom">Bootstrap Examples</a><br>
+                    <a href="/php/php_examples.asp" class="ga-bottom">PHP Examples</a><br>
+                    <a href="/java/java_examples.asp" class="ga-bottom">Java Examples</a><br>
+                    <a href="/xml/xml_examples.asp" class="ga-bottom">XML Examples</a><br>
+                    <a href="/jquery/jquery_examples.asp" class="ga-bottom">jQuery Examples</a><br>
+                </div>
+                <div class="footerlinks_2">
+                    <a href="https://campus.w3schools.com/collections/course-catalog" target="_blank" class="ga-bottom"><h5 style="font-family: 'Source Sans Pro', sans-serif;">Get Certified</h5></a>
+                    <a href="https://campus.w3schools.com/collections/certifications/products/html-certificate" target="_blank" class="ga-bottom">HTML Certificate</a><br>
+                    <a href="https://campus.w3schools.com/collections/certifications/products/css-certificate" target="_blank" class="ga-bottom">CSS Certificate</a><br>
+                    <a href="https://campus.w3schools.com/collections/certifications/products/javascript-certificate" target="_blank" class="ga-bottom">JavaScript Certificate</a><br>
+                    <a href="https://campus.w3schools.com/collections/certifications/products/front-end-certificate" target="_blank" class="ga-bottom">Front End Certificate</a><br>
+                    <a href="https://campus.w3schools.com/collections/certifications/products/sql-certificate" target="_blank" class="ga-bottom">SQL Certificate</a><br>
+                    <a href="https://campus.w3schools.com/collections/certifications/products/python-certificate" target="_blank" class="ga-bottom">Python Certificate</a><br>
+                    <a href="https://campus.w3schools.com/collections/certifications/products/php-certificate" target="_blank" class="ga-bottom">PHP Certificate</a><br>
+                    <a href="https://campus.w3schools.com/collections/certifications/products/jquery-certificate" target="_blank" class="ga-bottom">jQuery Certificate</a><br>
+                    <a href="https://campus.w3schools.com/collections/certifications/products/java-certificate" target="_blank" class="ga-bottom">Java Certificate</a><br>
+                    <a href="https://campus.w3schools.com/collections/certifications/products/c-certificate" target="_blank" class="ga-bottom">C++ Certificate</a><br>
+                    <a href="https://campus.w3schools.com/collections/certifications/products/c-certificate-1" target="_blank" class="ga-bottom">C# Certificate</a><br>
+                    <a href="https://campus.w3schools.com/collections/certifications/products/xml-certificate" target="_blank" class="ga-bottom">XML Certificate</a><br>
+                </div>
+            </div>
+
+
+            <div class="footersome">
+                <a target="_blank" href="https://www.youtube.com/@w3schools" title="W3Schools on YouTube"><i class="fa fa-youtube"></i></a>
+                <a target="_blank" href="https://www.linkedin.com/company/w3schools.com/" title="W3Schools on LinkedIn"><i class="fa"></i></a>
+                <a target="_blank" href="https://discord.com/invite/w3schools" title="Join the W3schools community on Discord"><i class="fa"></i></a>
+                <a target="_blank" href="https://www.facebook.com/w3schoolscom/" title="W3Schools on Facebook"><i class="fa"></i></a>
+                <a target="_blank" href="https://www.instagram.com/w3schools.com_official/" title="W3Schools on Instagram"><i class="fa"></i></a>
+                <div class="w3-hide-large" style="margin-top:16px"></div>
+                <a target="_blank" href="/forum/default.asp" title="Forum" class="textlink">FORUM</a>
+                <a target="_blank" href="/about/default.asp" title="About W3Schools" class="textlink">ABOUT</a>
+                <a target="_blank" href="/academy/index.php" title="Contact us about W3Schools Academy for educational institutions and organizations" class="textlink ga-bottom-textlink-academy">ACADEMY</a>
+            </div>
+
+            <div class="footertext">
+                W3Schools is optimized for learning and training. Examples might be simplified to improve reading and learning.<br class="footer-hide-special">
+                Tutorials, references, and examples are constantly reviewed to avoid errors, but we cannot warrant full correctness<br class="footer-hide-special">
+                of all content. While using W3Schools, you agree to have read and accepted our <a href="/about/about_copyright.asp" class="ga-bottom">terms of use</a>, 
+                <a href="/about/about_privacy.asp" class="ga-bottom">cookie and privacy policy</a>.<br><br>
+                <a href="/about/about_copyright.asp" class="ga-bottom">Copyright 1999-2025</a> by Refsnes Data. All Rights Reserved.
+                <a href="//www.w3schools.com/w3css/default.asp" class="ga-bottom">W3Schools is Powered by W3.CSS</a>.<br><br>
+            </div>
+            </div>
+        </div>
+    {% endblock footer %} {% endcomment %}
+
 </body>
 </html>

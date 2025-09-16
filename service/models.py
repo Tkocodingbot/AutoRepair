@@ -64,13 +64,18 @@ class Quotation(models.Model):
 class TimeSlot(models.Model):
     timeslot_id = models.AutoField(primary_key=True, unique=True) 
     date = models.DateField(blank=True, null=True)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    start_time = models.TimeField()  # Changed from DateTimeField
+    end_time = models.TimeField()    # Changed from DateTimeField
     is_available = models.BooleanField(default=True)
 
     def __str__(self):
-        #return f"{self.date} for {self.start_time} - {self.end_time}"
-        return f"{self.start_time.strftime('%Y-%m-%d %H:%M')} to {self.end_time.strftime('%H:%M')}"
+        # Check if date is None before using strftime
+        date_str = self.date.strftime('%Y-%m-%d') if self.date else "No date"
+        start_str = self.start_time.strftime('%H:%M') if self.start_time else "No start time"
+        end_str = self.end_time.strftime('%H:%M') if self.end_time else "No end time"
+        
+        return f"{date_str} {start_str} to {end_str}"
+    
     def clean_time_slot(self):
         time_slot = self.cleaned_data.get('time_slot')
         if time_slot:
@@ -138,3 +143,13 @@ class Invoice(models.Model):
             
         super().save(*args, **kwargs)
 
+class Technician(models.Model):
+    tech_id = models.AutoField(primary_key=True, unique=True) 
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
+    phone = models.CharField(max_length=10)
+    email = models.EmailField(max_length=50)
+    
+    def __str__(self):
+        return f"{self.first_name}"
+    

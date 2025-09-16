@@ -17,6 +17,7 @@ class Profile(models.Model):
     First_name = models.CharField(max_length = 20,blank=True, null=True)
     last_name = models.CharField(max_length = 20,blank=True, null=True)
     phone = models.CharField(max_length=10, blank=True, null=True)
+    email = models.EmailField(max_length=50, blank=True, null=True)
     Country = models.CharField(max_length = 20, default="South Africa") 
     Province = models.CharField(max_length = 20, blank=True, null=True) 
     City = models.CharField(max_length = 20, blank=True, null=True) 

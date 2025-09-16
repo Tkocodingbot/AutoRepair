@@ -36,4 +36,4 @@ class MySetPasswordForm(SetPasswordForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile  # Ensure there's no comma here
-        fields = ['image', 'First_name', 'last_name', 'phone', 'Country', 'Province', 'wallet']
+        fields = ['image', 'First_name', 'last_name', 'phone', 'email', 'Country', 'Province', 'wallet']

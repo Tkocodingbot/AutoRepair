@@ -175,7 +175,7 @@
                             <div class="card border-success border-2 h-100">
                                 <div class="card-body text-center">
                                     <h6 class="card-title text-success mb-3">
-                                        <i class="fas fa-calendar-day me-2"></i>{{ slot.start_time|date:"M d, Y" }}
+                                        <i class="fas fa-calendar-day me-2"></i>{{ slot.date|date:"M d, Y" }}
                                     </h6>
                                     <p class="card-text fs-5 fw-bold text-dark">
                                         {{ slot.start_time|time:"H:i" }} - {{ slot.end_time|time:"H:i" }}

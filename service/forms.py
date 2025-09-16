@@ -1,5 +1,5 @@
 from datetime import timezone
-from . models import Vehicle,Services,Quotation,QuotationRequest,TimeSlot,Booking,Invoice
+from . models import Technician, Vehicle,Services,Quotation,QuotationRequest,TimeSlot,Booking,Invoice
 from django import forms
 from django.core.exceptions import ValidationError
 
@@ -75,7 +75,53 @@ class VehicleForm(forms.ModelForm):
         model = Vehicle
         fields = ['name', 'model', 'year', 'vin_number', 'license_plate']
         
+# class TimeSlotForm(forms.ModelForm):
+#     date = forms.DateTimeField(widget=forms.DateInput(attrs={'type':'date'}),input_formats=['%Y-%m-%d'])
+#     start_time = forms.TimeField(widget=forms.TimeInput(attrs={'type':'time'}),input_formats=['%0-%0-%0'])
+#     end_time = forms.TimeField(widget=forms.TimeInput(attrs={'type':'time'}),input_formats=['%0-%0-%0'])
+#     class Meta:
+#         model = TimeSlot
+#         fields = ['date','start_time','end_time']
+#         Widget = {
+#             'date':forms.DateInput(attrs={'type':'date'}),
+#             'start_time': forms.TimeInput(attrs={'type':'time'}),
+#             'end_time': forms.TimeInput(attrs={'type':'time'})
+            
+#         }
+
 class TimeSlotForm(forms.ModelForm):
     class Meta:
         model = TimeSlot
-        fields = ['date','start_time','end_time']
+        fields = ['date', 'start_time', 'end_time']
+        widgets = {
+            'date': forms.DateInput(attrs={
+                'type': 'date',
+                'class': 'form-control',
+                'placeholder': 'Select date'
+            }),
+            'start_time': forms.TimeInput(attrs={
+                'type': 'time',
+                'class': 'form-control',
+                'placeholder': 'HH:MM'
+            }),
+            'end_time': forms.TimeInput(attrs={
+                'type': 'time', 
+                'class': 'form-control',
+                'placeholder': 'HH:MM'
+            }),
+        }
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        start_time = cleaned_data.get('start_time')
+        end_time = cleaned_data.get('end_time')
+        
+        if start_time and end_time and start_time >= end_time:
+            raise ValidationError("End time must be after start time")
+        
+        return cleaned_data
+    
+class TechniciansForm(forms.ModelForm):
+    class Meta:
+        model = Technician
+        fields = ['first_name','last_name','phone','email']
