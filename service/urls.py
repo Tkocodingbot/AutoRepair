@@ -24,6 +24,7 @@ urlpatterns = [
     path('bookings', views.bookings, name='bookings'),
     path('viewQuote/<int:quotereq_id>/', views.viewQuote, name='viewQuote'),
     path('tech', views.tech, name='tech'),
+    path('userbooking',views.userbooking,name="userbooking"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) 

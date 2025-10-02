@@ -22,6 +22,10 @@ from django.db import transaction, IntegrityError
 from django.core.paginator import Paginator  # used in pagination
 from django.db.models import Q  #used to apply queryset for search and filter 
 
+from account.decorators import unauthenticated_user,allowed_users,admin_only
+
+
+
 @login_required
 def my_quotations(request):
     quotations = Quotation.objects.filter(request__user=request.user)
@@ -93,7 +97,7 @@ def vehicle_management(request):
                 car = form.save(commit=False)
                 car.owner = request.user
                 car.save()
-                return redirect('vehicle_management')
+                return redirect('service:vehicle_management')
             else:
                 # If form is invalid, show error
                 cars = Vehicle.objects.filter(owner=request.user)
@@ -320,6 +324,7 @@ def book_slot(request):
     return render(request, "service/available_slots.html", {"form": form,  "quotes": quotes,"slots": slots})
 
 @login_required
+@allowed_users(allowed_roles=['admin'])
 def Dashboard(request):
     booking = Booking.objects.filter(status = "pending")
     P_booking = Booking.objects.filter(status='confirmed')
@@ -389,6 +394,7 @@ def tech(request):
         if form.is_valid():                    # no arguments here
             form.save()
             # optionally redirect after save
+            messages.success(request, "Technician created successfull!")
             return redirect('service:tech')  
     else:  # GET request
         form = TechniciansForm()               # empty form
@@ -403,8 +409,13 @@ def viewQuote(request, quotereq_id):
         
         return render(request,"service/tech.html",{'vquote':vquote, 'form':form})
 
+@login_required
+def userbooking(request):
+    userbookings = Booking.objects.filter(user=request.user).select_related('quotation')
+    return render(request, "service/userbookings.html", {'bookings': userbookings})
 
-    
+
+
 
         
         

@@ -6,13 +6,17 @@ from .forms import UserRegistrationForm
 from django.contrib.auth import logout as auth_logout, authenticate,login
 
 from .models import Profile
- 
+from .decorators import unauthenticated_user
+
+
+
 
 class Signupuser(View):
+    @unauthenticated_user
     def get(self, request):
         form = UserRegistrationForm()
         return render(request, 'account/register.html', locals())
-    
+    @unauthenticated_user
     def post(self, request):
         if request.user.is_authenticated:
             messages.warning(request, f"Account already logged in")
@@ -25,7 +29,7 @@ class Signupuser(View):
             
             # user = authenticate(username=username, password=password)
             # login(request, user)
-            messages.success(request,"Congrdultions {username} your account is created successfully")
+            messages.success(request,f"Congrdultions {username} your account is created successfully")
             
             # profile = Profile.objects.get(user=request.user)
             

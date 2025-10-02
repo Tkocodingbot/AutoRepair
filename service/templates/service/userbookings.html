@@ -1,0 +1,163 @@
+{% extends "HomeApp/base.html" %}
+{% load static %}
+
+{% block main-content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-success">Bookings History</h2>
+    
+    <div class="row">
+        {% for booking in bookings %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <!-- Card Header with Status Badge -->
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0 text-success">Booking #{{ booking.booking_id }}</h5>
+                    <span class="badge 
+                        {% if booking.status == 'confirmed' or booking.status == 'completed' %}bg-success
+                        {% elif booking.status == 'pending' %}bg-warning text-dark
+                        {% elif booking.status == 'cancelled' %}bg-danger
+                        {% else %}bg-secondary{% endif %}">
+                        {{ booking.status|title }}
+                    </span>
+                </div>
+                
+                <!-- Card Body -->
+                <div class="card-body">
+                    <!-- Time Slot Section -->
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-clock text-success me-2"></i>
+                        <div>
+                            <strong>Time:</strong><br>
+                            {{ booking.time_slot.start_time|date:"M d, Y" }}<br>
+                            <small class="text-muted">{{ booking.time_slot.start_time|time:"g:i A" }}</small>
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Information -->
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-car text-success me-2"></i>
+                        <div>
+                            <strong>Vehicle:</strong><br>
+                            {{ booking.quotation.vehicle_type.model }}
+                        </div>
+                    </div>
+
+                    <!-- License Plate -->
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-id-card text-success me-2"></i>
+                        <div>
+                            <strong>License Plate:</strong><br>
+                            <span class="badge bg-dark text-white">{{ booking.quotation.vehicle_type.license_plate }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Total Cost -->
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-money-bill-wave text-success me-2"></i>
+                        <div>
+                            <strong>Total Cost:</strong><br>
+                            <span class="h5 text-success fw-bold">R{{ booking.quotation.total_cost }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card Footer -->
+                <div class="card-footer bg-light">
+                    <div class="d-grid gap-2">
+                        {% if booking.status == 'pending' %}
+                        <button class="btn btn-success btn-sm">
+                            <i class="fas fa-check me-1"></i>Confirm
+                        </button>
+                        <button class="btn btn-danger btn-sm">
+                            <i class="fas fa-times me-1"></i>Cancel
+                        </button>
+                        {% elif booking.status == 'confirmed' %}
+                        <button class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit me-1"></i>Reschedule
+                        </button>
+                        <button class="btn btn-danger btn-sm">
+                            <i class="fas fa-times me-1"></i>Cancel
+                        </button>
+                        {% elif booking.status == 'completed' %}
+                        <button class="btn btn-outline-success btn-sm">
+                            <i class="fas fa-download me-1"></i>Download Invoice
+                        </button>
+                        {% endif %}
+                    </div>
+                </div> 
+            </div>
+        </div>
+        {% empty %}
+        <!-- Empty State -->
+        <div class="col-12">
+            <div class="card border-danger">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-calendar-times fa-3x text-danger mb-3"></i>
+                    <h3 class="text-danger">No Bookings Found</h3>
+                    <p class="text-muted">You haven't made any bookings yet.</p>
+                    <a href="{% url 'service:quotation_request' %}" class="btn btn-success">
+                        <i class="fas fa-plus me-1"></i>Create Your First Booking
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Add Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+    .card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        border: 1px solid #dee2e6;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .card-header {
+        border-bottom: 2px solid #28a745;
+    }
+    
+    .badge {
+        font-size: 0.75em;
+    }
+    
+    /* Custom colors for different statuses */
+    .bg-success {
+        background: linear-gradient(45deg, #28a745, #20c997) !important;
+    }
+    
+    .bg-danger {
+        background: linear-gradient(45deg, #dc3545, #e83e8c) !important;
+    }
+    
+    .bg-warning {
+        background: linear-gradient(45deg, #ffc107, #fd7e14) !important;
+    }
+    
+    {% comment %} .btn-success {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        border: none;
+    } {% endcomment %}
+    
+    {% comment %} .btn-success:hover {
+        background: linear-gradient(45deg, #218838, #1e9e8a);
+        transform: scale(1.05);
+    } {% endcomment %}
+    
+    .btn-danger {
+        background: linear-gradient(45deg, #dc3545, #e83e8c);
+        border: none;
+    }
+    
+    .btn-danger:hover {
+        background: linear-gradient(45deg, #c82333, #d91a7a);
+        transform: scale(1.05);
+    }
+</style>
+{% endblock main-content%}

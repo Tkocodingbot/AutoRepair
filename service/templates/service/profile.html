@@ -24,7 +24,7 @@
         }
         
         body {
-            background-color: #f5f7fb;
+            background-color: #ffffffff;
             color: #333;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
@@ -48,7 +48,7 @@
         }
         
         .profile-header {
-            background: linear-gradient(45deg, #5ced38ff, #965858b6);
+            background: linear-gradient(45deg, #28a745, #20c997);
             color: white;
             padding: 2rem;
             text-align: center;
@@ -185,7 +185,7 @@
                     <div class="form-section">
                         <h3 class="section-title"><i class="bi bi-image"></i> Profile Image</h3>
                         <div class="row">
-                            <div class="col-md-4 text-center">
+                            <div class="col-md-3 text-center">
                                 {% if prof.image %}
                                     <img id="avatar-preview" src="{{ prof.image.url }}" class="image-preview" alt="Current Profile Image">
                                 {% else %}

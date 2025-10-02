@@ -32,17 +32,217 @@
             </div>
             
         </div>
-        <p>Here you can request Quote and book next service fo your vehicle</P>
+        
         
         <div class='package-container'>
-            <tittle>Service Packages</tittle>
-            <h5>Minor Service</h5>
-            <h5>Major Service</h5>
-        </h2>
+        <h1 class="package-title">Service Packages</h1>
+        <div class="cards-wrapper">
+            <div class="card">
+                <div class="card_header">
+                    <h5>Minor Service</h5>
+                </div>
+                <div class="card_body">
+                    <p>Change the engine oil</p>
+                    <p>Inspect Diff oil</p>
+                    <p>Inspect gear box oil</p>
+                    <p>Inspect transfer case oil</p>
+                    <p>Inspect power steering fluid</p>
+                    <p>Fill up windscreen wiper fluid</p>
+                    <p>Inspect radiator over flow bottle</p>
+                    <p>Replace the air filter</p>
+                    <p>Replace the oil filter</p>
+                    <p>Replace the fuel filter (if applicable)</p>
+                    <p>Inspect the cabin filter</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card_header">
+                    <h5>Major Service</h5>
+                </div>
+                <div class="card_body">
+                    <p>New in-line plastic fuel filter (Excluding High-Pressure fuel filter)</p>
+                    <p>New spark plugs (non-platinum), points, and condensers</p>
+                    <p>New oil filter</p>
+                    <p>New air filter</p>
+                    <p>New engine oil</p>
+                    <p>Electrical check and report on any faults</p>
+                    <p>Adjustment of the hand brake</p>
+                    <p>Testing of brakes</p>
+                    <p>Battery check</p>
+                    <p>Car wash and vacuum (excludes engine cleaning)</p>
+                    <p>Labour for all the above</p>
+                    <p>A report on defects found and the customer informed of additional repair work required for their vehicle</p>
+                    <p>No additional work is undertaken without the customer's prior consent</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+        <style>
+            :root {
+                --primary-green: #28a745;
+                --dark-green: #1e7e34;
+                --light-green: #d4edda;
+                --primary-red: #dc3545;
+                --dark-red: #c82333;
+                --light-red: #f8d7da;
+                --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
+                min-height: 100vh;
+                padding: 30px 0;
+                margin-top: -30px;
+                margin-bottom: -10px;
+            } 
+            
+            .package-container {
+                {% comment %} display: flex;
+                align-items: center; {% endcomment %}
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            .package-title {
+                text-align: center;
+                margin-bottom: 40px;
+                color: var(--primary-green);
+                font-weight: 700;
+                font-size: 2.5rem;
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+                position: relative;
+                padding-bottom: 15px;
+            }
+            
+            .package-title:after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100px;
+                height: 4px;
+                background: linear-gradient(to right, var(--primary-green), var(--primary-red));
+                border-radius: 2px;
+            }
+            
+            .cards-wrapper {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .card {
+                flex: 1;
+                min-width: 300px;
+                max-width: 500px;
+                border: none;
+                border-radius: 15px;
+                box-shadow: var(--card-shadow);
+                transition: all 0.3s ease;
+                overflow: hidden;
+                background: white;
+            }
+            
+            .card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            }
+            
+            .card_header {
+                padding: 25px 20px;
+                text-align: center;
+                background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+                color: white;
+            }
+            
+            .card_header h5 {
+                margin: 0;
+                font-size: 1.8rem;
+                font-weight: 600;
+            }
+            
+            .card_body {
+                padding: 25px;
+            }
+            
+            .card_body p {
+                padding: 8px 0;
+                margin: 0;
+                border-bottom: 1px dashed #eaeaea;
+                position: relative;
+                padding-left: 25px;
+            }
+            
+            .card_body p:last-child {
+                border-bottom: none;
+            }
+            
+            .card_body p:before {
+                content: '\f00c';
+                font-family: 'Font Awesome 5 Free';
+                font-weight: 900;
+                position: absolute;
+                left: 0;
+                color: var(--primary-green);
+            }
+            
+            /* Specific styling for the Major Service card */
+            .card:nth-child(2) .card_header {
+                background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            }
+            
+            .card:nth-child(2) .card_body p:before {
+                color: var(--primary-red);
+            }
+            
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .cards-wrapper {
+                    flex-direction: column;
+                    align-items: center;
+                }
+                
+                .card {
+                    width: 100%;
+                    max-width: 100%;
+                }
+                
+                .package-title {
+                    font-size: 2rem;
+                }
+            }
+            
+            /* Animation for cards when they appear */
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .card {
+                animation: fadeInUp 0.6s ease forwards;
+            }
+            
+            .card:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+        </style>
         
+        <p>Here you can request Quote and book next service fo your vehicle</P>
 
         <div class="cardHolder">
-            <div class="card">
+            {% comment %} <div class="card">
                 <div class="card-hearder">
                     <p id="head"> Update profile </p>
                 </div>
@@ -54,7 +254,7 @@
                          <a href="{% url "service:profile" %}" class="btn btn-success">Create Profile</a>
                     </div>
                 </div>
-            </div>
+            </div> {% endcomment %}
             <div class="card">
                 <div class="card-hearder">
                     <p id="head">Create you Garage</p>
@@ -97,10 +297,6 @@
         </div>
 
         <p id="DHC">#Remember Don't Hate Congradulate</p>
-        
-        
-        
-        
 
     </div>
     <style>
